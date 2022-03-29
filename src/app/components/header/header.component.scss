@@ -1,0 +1,30 @@
+header {
+  padding: .7rem;
+  color: #f5f5f5;
+  background: #8e8eff;
+  margin-bottom: 2rem;
+  box-shadow: 0 0 3px #999;
+}
+
+h1 {
+  margin: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.creds {
+  display: flex;
+  align-items: center;
+}
+
+.creds__name {
+  margin-right: .5rem;
+}
+
+.creds__github {
+  height: 1.3rem;
+}
