@@ -5,6 +5,8 @@
 html {
   font-size: 16px;
   --primary-color: #8e8eff;
+  --primary-color-hover: #9a9aff;
+  --primary-color-active: #8686ff;
   --primary-text-color: #f5f5f5;
 }
 
@@ -24,6 +26,14 @@ body {
   cursor: pointer;
   border-radius: 0;
   font-size: 1rem;
+}
+
+.btn:hover {
+  background: var(--primary-color-hover);
+}
+
+.btn:active {
+  background: var(--primary-color-active);
 }
 
 .container {
