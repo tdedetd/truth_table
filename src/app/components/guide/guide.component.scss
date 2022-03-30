@@ -1,8 +1,25 @@
+h2 {
+  margin: 0;
+}
+
+ul {
+  margin: .5rem;
+  padding: 0;
+  list-style: none;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: .2rem;
+}
+
+.btn {
+  width: 3rem;
+}
+
 .guide {
   margin: 0 auto 2rem;
   width: 20rem;
-}
-
-h2 {
-  margin: 0;
 }

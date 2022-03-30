@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ExpressionInputService } from 'src/app/services/expression-input.service';
 
 interface IOperator {
   char: string;
@@ -21,9 +22,13 @@ export class GuideComponent implements OnInit {
     { char: '⊕', name: 'Exclusive disjunction (XOR)' },
   ];
 
-  constructor() { }
+  constructor(private exprInput: ExpressionInputService) { }
 
   ngOnInit(): void {
+  }
+
+  onOperationClick(char: string) {
+    this.exprInput.operatorInput$.next(char);
   }
 
 }

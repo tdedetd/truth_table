@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ExpressionInputComponent } from './components/expression-input/expression-input.component';
 import { GuideComponent } from './components/guide/guide.component';
+import { ExpressionInputService } from './services/expression-input.service';
 
 @NgModule({
   declarations: [
@@ -14,9 +16,12 @@ import { GuideComponent } from './components/guide/guide.component';
     GuideComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule,
   ],
-  providers: [],
+  providers: [
+    ExpressionInputService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
