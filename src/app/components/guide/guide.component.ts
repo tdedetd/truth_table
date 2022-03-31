@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ExpressionInputService } from 'src/app/services/expression-input.service';
-
-interface IOperator {
-  char: string;
-  name: string;
-}
+import { Operators } from 'src/app/misc/enums';
+import { IOperator } from 'src/app/misc/interfaces';
+import { OPERATORS } from 'src/app/misc/operators';
+import { ExpressionService } from 'src/app/services/expression.service';
 
 @Component({
   selector: 'tt-guide',
@@ -13,22 +11,15 @@ interface IOperator {
 })
 export class GuideComponent implements OnInit {
 
-  readonly operators: IOperator[] = [
-    { char: '!', name: 'Negation' },
-    { char: '∧', name: 'Conjunction (AND)' },
-    { char: 'v', name: 'Disjunction (OR)' },
-    { char: '→', name: 'Implication' },
-    { char: '↔', name: 'Equality' },
-    { char: '⊕', name: 'Exclusive disjunction (XOR)' },
-  ];
+  readonly operators: IOperator[] = OPERATORS;
 
-  constructor(private exprInput: ExpressionInputService) { }
+  constructor(private expr: ExpressionService) { }
 
   ngOnInit(): void {
   }
 
-  onOperationClick(char: string) {
-    this.exprInput.operatorInput$.next(char);
+  onOperationClick(char: Operators) {
+    this.expr.operatorInput$.next(char);
   }
 
 }

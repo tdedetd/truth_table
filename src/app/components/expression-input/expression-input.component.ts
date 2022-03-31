@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ExpressionInputService } from 'src/app/services/expression-input.service';
+import { ExpressionService } from 'src/app/services/expression.service';
 
 @Component({
   selector: 'tt-expression-input',
@@ -15,7 +15,7 @@ export class ExpressionInputComponent implements OnInit, AfterViewInit, OnDestro
 
   inputSubscription!: Subscription;
 
-  constructor(private exprInput: ExpressionInputService) { }
+  constructor(private expr: ExpressionService) { }
 
   ngOnInit(): void {
   }
@@ -24,7 +24,7 @@ export class ExpressionInputComponent implements OnInit, AfterViewInit, OnDestro
     const elem = this.input.nativeElement as HTMLInputElement;
     elem.focus();
 
-    this.inputSubscription = this.exprInput.operatorInput$.subscribe(char => {
+    this.inputSubscription = this.expr.operatorInput$.subscribe(char => {
       const selectionIndex = elem.selectionStart || 0;
       this.expression = this.expression.slice(0, selectionIndex) +
                         char +
@@ -39,6 +39,10 @@ export class ExpressionInputComponent implements OnInit, AfterViewInit, OnDestro
 
   ngOnDestroy(): void {
     this.inputSubscription?.unsubscribe();
+  }
+
+  onComputeClick() {
+    this.expr.parse(this.expression);
   }
 
 }

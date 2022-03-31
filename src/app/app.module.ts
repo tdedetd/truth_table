@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ExpressionInputComponent } from './components/expression-input/expression-input.component';
 import { GuideComponent } from './components/guide/guide.component';
-import { ExpressionInputService } from './services/expression-input.service';
+import { ExpressionService } from './services/expression.service';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,7 @@ import { ExpressionInputService } from './services/expression-input.service';
     FormsModule,
   ],
   providers: [
-    ExpressionInputService
+    ExpressionService
   ],
   bootstrap: [AppComponent]
 })
