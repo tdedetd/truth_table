@@ -42,7 +42,13 @@ export class ExpressionInputComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   onComputeClick() {
-    this.expr.parse(this.expression);
+    const expr = this.expr.parse(this.expression);
+    console.log(expr.toString());
+    console.log(expr.solve({
+      'A': true,
+      'B': false,
+      'C': false,
+    }));
   }
 
 }

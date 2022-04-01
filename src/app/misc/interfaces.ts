@@ -4,5 +4,5 @@ export interface IOperator {
   char: Operators;
   name: string;
   priority: number;
-  solve: (operands: boolean[]) => boolean
+  solve: (operands: boolean[]) => boolean;
 }

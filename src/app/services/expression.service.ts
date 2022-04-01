@@ -14,9 +14,11 @@ export class ExpressionService {
   }
 
   parse(exprString: string): LogicalExpression {
-    return new LogicalExpression(OPERATORS[2], [
-      'a',
-      new LogicalExpression(OPERATORS[0], ['b'])
+    return new LogicalExpression(OPERATORS[1], [
+      'A',
+      new LogicalExpression(OPERATORS[0], [new LogicalExpression(OPERATORS[2], [
+        'B', 'C'
+      ], true)])
     ]);
   }
 
