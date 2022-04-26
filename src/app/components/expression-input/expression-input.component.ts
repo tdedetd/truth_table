@@ -1,11 +1,13 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Operators } from 'src/app/misc/enums';
 import { ExpressionService } from 'src/app/services/expression.service';
 
 @Component({
   selector: 'tt-expression-input',
   templateUrl: './expression-input.component.html',
-  styleUrls: ['./expression-input.component.scss']
+  styleUrls: ['./expression-input.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ExpressionInputComponent implements OnInit, AfterViewInit, OnDestroy {
 
@@ -13,9 +15,10 @@ export class ExpressionInputComponent implements OnInit, AfterViewInit, OnDestro
 
   expression = '';
 
-  inputSubscription!: Subscription;
+  private inputSub!: Subscription;
 
-  constructor(private expr: ExpressionService) { }
+  constructor(private expr: ExpressionService,
+              private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
   }
@@ -24,31 +27,28 @@ export class ExpressionInputComponent implements OnInit, AfterViewInit, OnDestro
     const elem = this.input.nativeElement as HTMLInputElement;
     elem.focus();
 
-    this.inputSubscription = this.expr.operatorInput$.subscribe(char => {
-      const selectionIndex = elem.selectionStart || 0;
-      this.expression = this.expression.slice(0, selectionIndex) +
-                        char +
-                        this.expression.slice(selectionIndex);
-
-      setTimeout(() => {
-        elem.focus();
-        elem.setSelectionRange(selectionIndex + 1, selectionIndex + 1);
-      });
-    });
+    this.inputSub = this.expr.operatorInput$.subscribe(char => this.insertChar(char, elem));
   }
 
   ngOnDestroy(): void {
-    this.inputSubscription?.unsubscribe();
+    this.inputSub?.unsubscribe();
   }
 
-  onComputeClick() {
+  compute() {
     const expr = this.expr.parse(this.expression);
-    console.log(expr.toString());
-    console.log(expr.solve({
-      'A': true,
-      'B': false,
-      'C': false,
-    }));
+  }
+
+  private insertChar(char: Operators, elem: HTMLInputElement) {
+    const selectionIndex = elem.selectionStart || 0;
+    this.expression = [
+      this.expression.slice(0, selectionIndex),
+      char,
+      this.expression.slice(selectionIndex)
+    ].join('');
+
+    elem.focus();
+    this.cd.detectChanges();
+    setTimeout(() => elem.setSelectionRange(selectionIndex + 1, selectionIndex + 1));
   }
 
 }

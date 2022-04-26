@@ -1,4 +1,11 @@
 <div>
-  <input #input type="text" placeholder="Enter logical expression here" [(ngModel)]="expression">
-  <button class="btn" (click)="onComputeClick()">Compute</button>
+  <input
+    #input
+    type="text"
+    [class.no-letter-spacing]="!expression"
+    placeholder="Enter logical expression here"
+    [(ngModel)]="expression"
+    (keydown.enter)="compute()">
+
+  <button class="btn" (click)="compute()">Compute</button>
 </div>

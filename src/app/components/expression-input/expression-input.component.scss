@@ -13,6 +13,10 @@ input[type=text] {
   letter-spacing: .15rem;
 }
 
+input[type=text].no-letter-spacing {
+  letter-spacing: initial;
+}
+
 .btn {
   height: 100%;
 }
