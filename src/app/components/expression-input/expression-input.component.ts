@@ -11,11 +11,14 @@ import { ExpressionService } from 'src/app/services/expression.service';
 })
 export class ExpressionInputComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @ViewChild('input') input!: ElementRef;
+  @ViewChild('textbox') textbox!: ElementRef;
 
   expression = '';
 
   private inputSub!: Subscription;
+
+  private readonly allowedCharsRegex = new RegExp('^[a-z,A-Z,(,), ]$');
+  private readonly smallLettersRegex = new RegExp('^[a-z]$');
 
   constructor(private expr: ExpressionService,
               private cd: ChangeDetectorRef) { }
@@ -24,10 +27,10 @@ export class ExpressionInputComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   ngAfterViewInit(): void {
-    const elem = this.input.nativeElement as HTMLInputElement;
+    const elem = this.textbox.nativeElement as HTMLInputElement;
     elem.focus();
 
-    this.inputSub = this.expr.operatorInput$.subscribe(char => this.insertChar(char, elem));
+    this.inputSub = this.expr.operatorInput$.subscribe(char => this.insertOperation(char, elem));
   }
 
   ngOnDestroy(): void {
@@ -38,7 +41,22 @@ export class ExpressionInputComponent implements OnInit, AfterViewInit, OnDestro
     const expr = this.expr.parse(this.expression);
   }
 
-  private insertChar(char: Operators, elem: HTMLInputElement) {
+  keydown(event: KeyboardEvent) {
+    const char = event.key;
+    if (char.length !== 1) return;
+
+    if (!this.allowedCharsRegex.test(char)) {
+      event.preventDefault();
+      return;
+    }
+
+    if (this.smallLettersRegex.test(char)) {
+      event.preventDefault();
+      this.insertChar(char.toUpperCase(), event.target as HTMLInputElement);
+    }
+  }
+
+  private insertChar(char: string, elem: HTMLInputElement) {
     const selectionIndex = elem.selectionStart || 0;
     this.expression = [
       this.expression.slice(0, selectionIndex),
@@ -49,6 +67,10 @@ export class ExpressionInputComponent implements OnInit, AfterViewInit, OnDestro
     elem.focus();
     this.cd.detectChanges();
     setTimeout(() => elem.setSelectionRange(selectionIndex + 1, selectionIndex + 1));
+  }
+
+  private insertOperation(char: Operators, elem: HTMLInputElement) {
+    this.insertChar(char, elem);
   }
 
 }
