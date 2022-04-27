@@ -7,13 +7,15 @@ import { HeaderComponent } from './components/header/header.component';
 import { ExpressionInputComponent } from './components/expression-input/expression-input.component';
 import { GuideComponent } from './components/guide/guide.component';
 import { ExpressionService } from './services/expression.service';
+import { TableComponent } from './components/table/table.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     ExpressionInputComponent,
-    GuideComponent
+    GuideComponent,
+    TableComponent
   ],
   imports: [
     BrowserModule,

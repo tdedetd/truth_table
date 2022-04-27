@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { LogicalExpression } from './misc/logical-expression';
+import { ExpressionService } from './services/expression.service';
 
 @Component({
   selector: 'tt-root',
@@ -6,5 +8,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'truth_table';
+
+  expression: LogicalExpression | null = null;
+
+  constructor() {
+  }
+
+  onExpressionChange(expression: LogicalExpression) {
+    this.expression = expression;
+  }
 }
