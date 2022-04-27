@@ -1,6 +1,7 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Operators } from 'src/app/misc/enums';
+import { LogicalExpression } from 'src/app/misc/logical-expression';
 import { ExpressionService } from 'src/app/services/expression.service';
 
 @Component({
@@ -12,6 +13,8 @@ import { ExpressionService } from 'src/app/services/expression.service';
 export class ExpressionInputComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('textbox') textbox!: ElementRef;
+
+  @Output() expressionChange: EventEmitter<LogicalExpression> = new EventEmitter();
 
   expression = '';
 
@@ -39,6 +42,7 @@ export class ExpressionInputComponent implements OnInit, AfterViewInit, OnDestro
 
   compute() {
     const expr = this.expr.parse(this.expression);
+    this.expressionChange.emit(expr);
   }
 
   keydown(event: KeyboardEvent) {

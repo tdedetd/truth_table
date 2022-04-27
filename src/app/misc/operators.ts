@@ -1,13 +1,15 @@
 import { Operators } from './enums';
 import { IOperator } from './interfaces';
 
+export const OP_NOT: IOperator = {
+  char: Operators.Not,
+  name: 'Negation (NOT)',
+  priority: 1,
+  solve: operands => !operands[0]
+};
+
 export const OPERATORS: IOperator[] = [
-  {
-    char: Operators.Not,
-    name: 'Negation (NOT)',
-    priority: 1,
-    solve: operands => !operands[0]
-  },
+  OP_NOT,
   {
     char: Operators.And,
     name: 'Conjunction (AND)',
