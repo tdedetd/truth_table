@@ -1,2 +1,16 @@
-<div *ngIf="expression">{{ expression.toString() }}</div>
-<div *ngIf="!expression">No expression</div>
+<div *ngIf="expression" class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th *ngFor="let variable of variables">{{ variable }}</th>
+        <th>{{ expression.toString() }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let comb of combinations">
+        <td *ngFor="let variable of variables">{{ comb[variable] | tonumber }}</td>
+        <td>{{ expression.solve(comb) | tonumber }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

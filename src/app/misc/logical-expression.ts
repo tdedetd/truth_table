@@ -1,4 +1,5 @@
 import { IOperator } from './interfaces';
+import { Variables } from './types';
 
 export type Operand = LogicalExpression | boolean | string;
 
@@ -8,7 +9,7 @@ export class LogicalExpression {
               public readonly operands: [Operand] | [Operand, Operand],
               public readonly brackets = false) { }
 
-  solve(values: { [key: string]: boolean }): boolean {
+  solve(values: Variables): boolean {
     if (!this.operator && typeof this.operands[0] === 'string') return values[this.operands[0]];
 
     const operands: boolean[] = this.operands.map(op => {

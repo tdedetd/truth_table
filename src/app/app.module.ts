@@ -8,6 +8,7 @@ import { ExpressionInputComponent } from './components/expression-input/expressi
 import { GuideComponent } from './components/guide/guide.component';
 import { ExpressionService } from './services/expression.service';
 import { TableComponent } from './components/table/table.component';
+import { ToNumberPipe } from './pipes/to-number.pipe';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { TableComponent } from './components/table/table.component';
     HeaderComponent,
     ExpressionInputComponent,
     GuideComponent,
-    TableComponent
+    TableComponent,
+    ToNumberPipe
   ],
   imports: [
     BrowserModule,

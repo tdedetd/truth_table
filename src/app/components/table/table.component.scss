@@ -1,0 +1,24 @@
+.table-container {
+  margin: 2.5rem;
+}
+
+table {
+  border-collapse: collapse;
+  margin: 0 auto;
+  box-shadow: 0 0 5px #999;
+}
+
+th, td {
+  background: #fff;
+  padding: .5rem 1.5rem;
+}
+
+th {
+  background: var(--primary-color);
+  color: var(--primary-text-color);
+}
+
+td {
+  text-align: center;
+  min-width: 3rem;
+}
