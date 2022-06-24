@@ -1,15 +1,15 @@
-<div *ngIf="expression" class="table-container">
+<div *ngIf="childExpressions" class="table-container">
   <table>
     <thead>
       <tr>
         <th *ngFor="let variable of variables">{{ variable }}</th>
-        <th>{{ expression.toString() }}</th>
+        <th *ngFor="let expr of childExpressions">{{ expr.toString() }}</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let comb of combinations">
         <td *ngFor="let variable of variables">{{ comb[variable] | tonumber }}</td>
-        <td>{{ expression.solve(comb) | tonumber }}</td>
+        <td *ngFor="let expr of childExpressions">{{ expr.solve(comb) | tonumber }}</td>
       </tr>
     </tbody>
   </table>
