@@ -34,7 +34,25 @@ describe('ExpressionInputComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should update expression after inserting char "A"', () => {
-    
+  describe('should update expression', () => {
+    let textbox: HTMLInputElement;
+
+    beforeEach(() => {
+      textbox = component.textbox.nativeElement;
+    });
+
+    it('after inserting char "A"', () => {
+      textbox.dispatchEvent(new KeyboardEvent('keydown', {
+        key: 'A',
+      }));
+      expect(component.expression).toEqual('A');
+    });
+
+    it('after inserting char "b"', () => {
+      textbox.dispatchEvent(new KeyboardEvent('keydown', {
+        key: 'b',
+      }));
+      expect(component.expression).toEqual('B');
+    });
   });
 });

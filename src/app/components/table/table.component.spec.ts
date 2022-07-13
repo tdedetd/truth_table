@@ -1,14 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { ExpressionService } from 'src/app/services/expression.service';
 import { TableComponent } from './table.component';
 
 describe('TableComponent', () => {
+  const fakeExpressionService = {};
+
   let component: TableComponent;
   let fixture: ComponentFixture<TableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TableComponent ]
+      declarations: [ TableComponent ],
+      providers: [
+        { provide: ExpressionService, useValue: fakeExpressionService }
+      ]
     })
     .compileComponents();
   });

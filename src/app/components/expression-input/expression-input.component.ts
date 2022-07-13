@@ -21,7 +21,6 @@ export class ExpressionInputComponent implements OnInit, AfterViewInit, OnDestro
   private inputSub!: Subscription;
 
   private readonly allowedCharsRegex = new RegExp('^[a-z,A-Z,(,), ]$');
-  private readonly smallLettersRegex = new RegExp('^[a-z]$');
 
   constructor(private expr: ExpressionService,
               private cd: ChangeDetectorRef) { }
@@ -48,14 +47,9 @@ export class ExpressionInputComponent implements OnInit, AfterViewInit, OnDestro
   keydown(event: KeyboardEvent) {
     const char = event.key;
     if (char.length !== 1) return;
+    event.preventDefault();
 
-    if (!this.allowedCharsRegex.test(char)) {
-      event.preventDefault();
-      return;
-    }
-
-    if (this.smallLettersRegex.test(char)) {
-      event.preventDefault();
+    if (this.allowedCharsRegex.test(char)) {
       this.insertChar(char.toUpperCase(), event.target as HTMLInputElement);
     }
   }
