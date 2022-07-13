@@ -20,7 +20,7 @@ export class ExpressionInputComponent implements OnInit, AfterViewInit, OnDestro
 
   private inputSub!: Subscription;
 
-  private readonly allowedCharsRegex = new RegExp('^[a-z,A-Z,(,), ]$');
+  private readonly allowedCharsRegex = new RegExp('^[a-zA-Z()]$');
 
   constructor(private expr: ExpressionService,
               private cd: ChangeDetectorRef) { }
