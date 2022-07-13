@@ -1,10 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Subject } from 'rxjs';
 
 import { ExpressionService } from 'src/app/services/expression.service';
 import { GuideComponent } from './guide.component';
 
 describe('GuideComponent', () => {
-  const fakeExpressionService = {};
+  const fakeExpressionService = {
+    operatorInput$: new Subject()
+  };
 
   let component: GuideComponent;
   let fixture: ComponentFixture<GuideComponent>;
@@ -25,7 +28,15 @@ describe('GuideComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('emits char after clickng operation button', () => {
+    // @ts-ignore
+    spyOn(component.expr.operatorInput$, 'next');
+
+    const elem = fixture.nativeElement as HTMLElement;
+    const button = elem.querySelector('li button') as HTMLButtonElement;
+    button.click();
+
+    // @ts-ignore
+    expect(component.expr.operatorInput$.next).toHaveBeenCalledWith('!');
   });
 });
