@@ -1,6 +1,5 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnDestroy, output, viewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Operators } from 'src/app/misc/enums';
 import { LogicalExpression } from 'src/app/misc/logical-expression';
 import { ExpressionService } from 'src/app/services/expression.service';
 
@@ -11,41 +10,42 @@ import { ExpressionService } from 'src/app/services/expression.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
-export class ExpressionInputComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ExpressionInputComponent implements AfterViewInit, OnDestroy {
 
-  @ViewChild('textbox') textbox!: ElementRef;
+  public textbox = viewChild<ElementRef<HTMLInputElement>>('textbox');
 
-  @Output() expressionChange: EventEmitter<LogicalExpression> = new EventEmitter();
+  public expressionChange = output<LogicalExpression>();
+  public expression = '';
 
-  expression = '';
-
-  private inputSub!: Subscription;
-
+  private inputSub?: Subscription;
   private readonly allowedCharsRegex = new RegExp('^[a-zA-Z()]$');
 
-  constructor(private expr: ExpressionService,
-              private cd: ChangeDetectorRef) { }
+  constructor(
+    private expr: ExpressionService,
+    private cd: ChangeDetectorRef
+  ) { }
 
-  ngOnInit(): void {
+  public ngAfterViewInit(): void {
+    const elem = this.textbox()?.nativeElement;
+    elem?.focus();
+
+    this.inputSub = this.expr.operatorInput$.subscribe((char) => {
+      if (elem) {
+        this.insertChar(char, elem);
+      }
+    });
   }
 
-  ngAfterViewInit(): void {
-    const elem = this.textbox.nativeElement as HTMLInputElement;
-    elem.focus();
-
-    this.inputSub = this.expr.operatorInput$.subscribe(char => this.insertOperation(char, elem));
-  }
-
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.inputSub?.unsubscribe();
   }
 
-  compute() {
+  public compute(): void {
     const expr = this.expr.parse(this.expression);
     this.expressionChange.emit(expr);
   }
 
-  keydown(event: KeyboardEvent) {
+  public keydown(event: KeyboardEvent): void {
     const char = event.key;
     if (char.length !== 1) return;
     event.preventDefault();
@@ -55,7 +55,7 @@ export class ExpressionInputComponent implements OnInit, AfterViewInit, OnDestro
     }
   }
 
-  private insertChar(char: string, elem: HTMLInputElement) {
+  private insertChar(char: string, elem: HTMLInputElement): void {
     const selectionIndex = elem.selectionStart || 0;
     this.expression = [
       this.expression.slice(0, selectionIndex),
@@ -66,10 +66,6 @@ export class ExpressionInputComponent implements OnInit, AfterViewInit, OnDestro
     elem.focus();
     this.cd.detectChanges();
     setTimeout(() => elem.setSelectionRange(selectionIndex + 1, selectionIndex + 1));
-  }
-
-  private insertOperation(char: Operators, elem: HTMLInputElement) {
-    this.insertChar(char, elem);
   }
 
 }

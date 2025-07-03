@@ -51,21 +51,21 @@ describe('ExpressionInputComponent', () => {
   });
 
   describe('should update expression after inserting char', () => {
-    let textbox: HTMLInputElement;
+    let textbox: HTMLInputElement | undefined;
 
     beforeEach(() => {
-      textbox = component.textbox.nativeElement;
+      textbox = component.textbox()?.nativeElement;
     });
 
     it('"A"', () => {
-      textbox.dispatchEvent(new KeyboardEvent('keydown', {
+      textbox?.dispatchEvent(new KeyboardEvent('keydown', {
         key: 'A',
       }));
       expect(component.expression).toEqual('A');
     });
 
     it('"b"', () => {
-      textbox.dispatchEvent(new KeyboardEvent('keydown', {
+      textbox?.dispatchEvent(new KeyboardEvent('keydown', {
         key: 'b',
       }));
       expect(component.expression).toEqual('B');
@@ -73,15 +73,15 @@ describe('ExpressionInputComponent', () => {
   });
 
   describe("shouldn't update expression after inserting char", () => {
-    let textbox: HTMLInputElement;
+    let textbox: HTMLInputElement | undefined;
 
     beforeEach(() => {
-      textbox = component.textbox.nativeElement;
+      textbox = component.textbox()?.nativeElement;
     });
 
     ['1', ',', ' '].forEach(ch => {
       it(`"${ch}"`, () => {
-        textbox.dispatchEvent(new KeyboardEvent('keydown', {
+        textbox?.dispatchEvent(new KeyboardEvent('keydown', {
           key: ch,
         }));
         expect(component.expression).toEqual('');

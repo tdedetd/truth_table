@@ -1,8 +1,10 @@
 <div class="guide">
   <h2>Operators</h2>
   <ul>
-    <li *ngFor="let op of operators">{{ op.name }}
-      <button class="btn" (click)="onOperationClick(op.char)">{{ op.char }}</button>
-    </li>
+    @for (op of operators; track op.char) {
+      <li>{{ op.name }}
+        <button class="btn" (click)="onOperationClick(op.char)">{{ op.char }}</button>
+      </li>
+    }
   </ul>
 </div>

@@ -1,16 +1,26 @@
-<div *ngIf="childExpressions" class="table-container">
+<div class="table-container">
   <table>
     <thead>
       <tr>
-        <th *ngFor="let variable of variables">{{ variable }}</th>
-        <th *ngFor="let expr of childExpressions">{{ expr.toString() }}</th>
+        @for (variable of variables(); track $index) {
+          <th>{{ variable }}</th>
+        }
+        @for (expr of childExpressions(); track $index) {
+          <th>{{ expr.toString() }}</th>
+        }
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let comb of combinations">
-        <td *ngFor="let variable of variables">{{ comb[variable] | tonumber }}</td>
-        <td *ngFor="let expr of childExpressions">{{ expr.solve(comb) | tonumber }}</td>
-      </tr>
+      @for (comb of combinations(); track $index) {
+        <tr>
+          @for (variable of variables(); track $index) {
+            <td>{{ comb[variable] | tonumber }}</td>
+          }
+          @for (expr of childExpressions(); track $index) {
+            <td>{{ expr.solve(comb) | tonumber }}</td>
+          }
+        </tr>
+      }
     </tbody>
   </table>
 </div>

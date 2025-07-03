@@ -5,6 +5,9 @@
     <div class="expr-input">
       <tt-expression-input (expressionChange)="onExpressionChange($event)"></tt-expression-input>
     </div>
-    <tt-table [expression]="expression"></tt-table>
+
+    @if (expression) {
+      <tt-table [expression]="expression"></tt-table>
+    }
   </main>
 </div>

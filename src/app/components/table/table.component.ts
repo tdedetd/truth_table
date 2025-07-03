@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { LogicalExpression } from 'src/app/misc/logical-expression';
 import { Variables } from 'src/app/misc/types';
 import { ExpressionService } from 'src/app/services/expression.service';
@@ -10,25 +10,14 @@ import { ExpressionService } from 'src/app/services/expression.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
-export class TableComponent implements OnChanges {
+export class TableComponent {
+  public expression = input.required<LogicalExpression>();
 
-  @Input() expression: LogicalExpression | null = null;
-
-  childExpressions: LogicalExpression[] | null = null;
-
-  combinations: Variables[] = [];
-
-  variables: string[] = [];
+  public childExpressions = computed(() => this.getExpressions(this.expression()).reverse());
+  public variables = computed(() => this.exprService.getVariables(this.expression()));
+  public combinations = computed(() => this.getCombinations(this.variables()));
 
   constructor(private exprService: ExpressionService) { }
-
-  ngOnChanges(): void {
-    if (this.expression) {
-      this.variables = this.exprService.getVariables(this.expression);
-      this.combinations = this.getCombinations(this.variables);
-      this.childExpressions = this.getExpressions(this.expression).reverse();
-    }
-  }
 
   private getCombinations(variables: string[]): Variables[] {
     const combinations = [];
@@ -46,15 +35,14 @@ export class TableComponent implements OnChanges {
   }
 
   private getExpressions(expression: LogicalExpression): LogicalExpression[] {
-    let res: LogicalExpression[] = [expression];
-
-    expression.operands
-      .filter(op => op instanceof LogicalExpression && op.operator)
-      .map(op => op as LogicalExpression)
-      .map(exp => new LogicalExpression(exp.operator, exp.operands))
-      .forEach(exp => res = [...res, ...this.getExpressions(exp as LogicalExpression)]);
-
-    return res;
+    return [
+      expression,
+      ...expression.operands
+        .filter((operand) => operand instanceof LogicalExpression)
+        .filter((expression) => expression.operator)
+        .map((expression) => new LogicalExpression(expression.operator, expression.operands))
+        .map((expression) => this.getExpressions(expression))
+        .flat(),
+    ];
   }
-
 }

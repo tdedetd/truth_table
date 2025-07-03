@@ -11,9 +11,6 @@ export class AppComponent {
 
   expression: LogicalExpression | null = null;
 
-  constructor() {
-  }
-
   onExpressionChange(expression: LogicalExpression) {
     this.expression = expression;
   }
