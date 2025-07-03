@@ -5,10 +5,11 @@ import { LogicalExpression } from 'src/app/misc/logical-expression';
 import { ExpressionService } from 'src/app/services/expression.service';
 
 @Component({
-  selector: 'tt-expression-input',
-  templateUrl: './expression-input.component.html',
-  styleUrls: ['./expression-input.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'tt-expression-input',
+    templateUrl: './expression-input.component.html',
+    styleUrls: ['./expression-input.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ExpressionInputComponent implements OnInit, AfterViewInit, OnDestroy {
 

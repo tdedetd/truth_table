@@ -5,9 +5,10 @@ import { OPERATORS } from 'src/app/misc/operators';
 import { ExpressionService } from 'src/app/services/expression.service';
 
 @Component({
-  selector: 'tt-guide',
-  templateUrl: './guide.component.html',
-  styleUrls: ['./guide.component.scss']
+    selector: 'tt-guide',
+    templateUrl: './guide.component.html',
+    styleUrls: ['./guide.component.scss'],
+    standalone: false
 })
 export class GuideComponent implements OnInit {
 

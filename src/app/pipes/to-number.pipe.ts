@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'tonumber'
+    name: 'tonumber',
+    standalone: false
 })
 export class ToNumberPipe implements PipeTransform {
   transform(value: any) {

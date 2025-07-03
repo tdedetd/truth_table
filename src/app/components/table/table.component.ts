@@ -4,10 +4,11 @@ import { Variables } from 'src/app/misc/types';
 import { ExpressionService } from 'src/app/services/expression.service';
 
 @Component({
-  selector: 'tt-table',
-  templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'tt-table',
+    templateUrl: './table.component.html',
+    styleUrls: ['./table.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class TableComponent implements OnChanges {
 
