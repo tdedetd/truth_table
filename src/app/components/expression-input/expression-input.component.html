@@ -4,7 +4,7 @@
     type="text"
     [class.no-letter-spacing]="!expression"
     placeholder="Enter logical expression here"
-    [(ngModel)]="expression"
+    [ngModel]="expression"
     (keydown)="keydown($event)"
     (keydown.enter)="compute()">
 

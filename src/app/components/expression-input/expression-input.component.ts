@@ -1,5 +1,5 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnDestroy, output, viewChild } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { afterRenderEffect, ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, DestroyRef, ElementRef, output, viewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LogicalExpression } from 'src/app/misc/logical-expression';
 import { ExpressionService } from 'src/app/services/expression.service';
 
@@ -10,34 +10,24 @@ import { ExpressionService } from 'src/app/services/expression.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
-export class ExpressionInputComponent implements AfterViewInit, OnDestroy {
-
-  public textbox = viewChild<ElementRef<HTMLInputElement>>('textbox');
+export class ExpressionInputComponent {
+  public textbox = viewChild.required<ElementRef<HTMLInputElement>>('textbox');
 
   public expressionChange = output<LogicalExpression>();
   public expression = '';
 
-  private inputSub?: Subscription;
   private readonly allowedCharsRegex = new RegExp('^[a-zA-Z()]$');
+
+  private textboxHtml = computed(() => this.textbox().nativeElement);
 
   constructor(
     private expr: ExpressionService,
+    private destroyRef: DestroyRef,
     private cd: ChangeDetectorRef
-  ) { }
-
-  public ngAfterViewInit(): void {
-    const elem = this.textbox()?.nativeElement;
-    elem?.focus();
-
-    this.inputSub = this.expr.operatorInput$.subscribe((char) => {
-      if (elem) {
-        this.insertChar(char, elem);
-      }
+  ) {
+    afterRenderEffect(() => {
+      this.subscribeToOperationSelection();
     });
-  }
-
-  public ngOnDestroy(): void {
-    this.inputSub?.unsubscribe();
   }
 
   public compute(): void {
@@ -47,16 +37,20 @@ export class ExpressionInputComponent implements AfterViewInit, OnDestroy {
 
   public keydown(event: KeyboardEvent): void {
     const char = event.key;
-    if (char.length !== 1) return;
+    if (char.length !== 1) {
+      return;
+    }
     event.preventDefault();
 
     if (this.allowedCharsRegex.test(char)) {
-      this.insertChar(char.toUpperCase(), event.target as HTMLInputElement);
+      this.insertChar(char.toUpperCase());
     }
   }
 
-  private insertChar(char: string, elem: HTMLInputElement): void {
+  private insertChar(char: string): void {
+    const elem = this.textboxHtml();
     const selectionIndex = elem.selectionStart || 0;
+
     this.expression = [
       this.expression.slice(0, selectionIndex),
       char,
@@ -68,4 +62,13 @@ export class ExpressionInputComponent implements AfterViewInit, OnDestroy {
     setTimeout(() => elem.setSelectionRange(selectionIndex + 1, selectionIndex + 1));
   }
 
+  private subscribeToOperationSelection(): void {
+    this.textboxHtml().focus();
+
+    this.expr.operatorInput$.pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe((char) => {
+      this.insertChar(char);
+    });
+  }
 }
