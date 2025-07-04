@@ -1,25 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { Operators } from '../misc/enums';
-import { IOperator } from '../misc/interfaces';
-import { LogicalExpression } from '../misc/logical-expression';
-import { OPERATORS, OP_NOT } from '../misc/operators';
+import { Operators } from '../models/operators.enum';
+import { IOperator } from '../models/operator.interface';
+import { LogicalExpression } from '../classes/logical-expression';
+import { OPERATORS, OP_NOT } from '../utils/constants/operators';
 
 @Injectable()
 export class ExpressionService {
-
-  readonly operatorInput$: Subject<Operators> = new Subject();
-
   readonly operatorsGrouped: IOperator[][];
 
   constructor() {
-
     const obj = OPERATORS
-      .filter(op => op.char !== Operators.Not)
-      .reduce((acc: any, cur) => ({
+      .filter((operator) => operator.char !== Operators.Not)
+      .reduce<Record<number, IOperator[]>>((acc, operator) => ({
         ...acc,
-        [cur.priority]: acc[cur.priority] ? [...acc[cur.priority], cur] : [cur]
-      }), {}) as { [i: number]: IOperator[] };
+        [operator.priority]: acc[operator.priority] ? [...acc[operator.priority], operator] : [operator]
+      }), {});
 
     this.operatorsGrouped = Object
       .entries(obj)
@@ -27,18 +22,14 @@ export class ExpressionService {
       .map<IOperator[]>(entry => entry[1]);
   }
 
-  getVariables(expr: LogicalExpression): string[] {
-    return Array.from(new Set(this.getVariablesRecursively(expr)));
-  }
-
-  parse(expr: string, brackets = false): LogicalExpression {
+  public parse(expr: string, brackets = false): LogicalExpression {
     expr = expr.trim();
     if (expr[0] === '(' && expr[expr.length - 1] === ')') {
       return this.parse(expr.slice(1, expr.length - 1), true);
     }
 
     let bracketsOpened = 0;
-    for (const ops of this.operatorsGrouped) {
+    for (const operators of this.operatorsGrouped) {
       for (let i = 0; i < expr.length; i++) {
         if (expr[i] === '(') {
           bracketsOpened++;
@@ -48,11 +39,14 @@ export class ExpressionService {
           continue;
         }
 
-        if (bracketsOpened !== 0) continue;
+        if (bracketsOpened !== 0) {
+          continue;
+        }
 
-        for (const op of ops) {
-          if (expr[i] === op.char) return new LogicalExpression(
-            op,
+        const operator = operators.find(({ char }) => expr[i] === char);
+        if (operator) {
+          return new LogicalExpression(
+            operator,
             [
               this.parse(expr.slice(0, i)),
               this.parse(expr.slice(i + 1, expr.length))
@@ -63,23 +57,14 @@ export class ExpressionService {
       }
     }
 
-    if (expr[0] === '!') return new LogicalExpression(
-      OP_NOT,
-      [this.parse(expr.slice(1))],
-      brackets
-    );
+    if (expr[0] === '!') {
+      return new LogicalExpression(
+        OP_NOT,
+        [this.parse(expr.slice(1))],
+        brackets
+      );
+    }
 
     return new LogicalExpression(null, [expr]);
-  }
-
-  private getVariablesRecursively(expr: LogicalExpression): string[] {
-    let res: string[] = [];
-
-    expr.operands.forEach(op => {
-      if (op instanceof LogicalExpression) res.push(...this.getVariablesRecursively(op));
-      else if (typeof op === 'string') res.push(op);
-    });
-
-    return res;
   }
 }

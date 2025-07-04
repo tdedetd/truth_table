@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { of } from 'rxjs';
 
-import { LogicalExpression } from 'src/app/misc/logical-expression';
+import { LogicalExpression } from 'src/app/classes/logical-expression';
 import { ExpressionService } from 'src/app/services/expression.service';
 import { ExpressionInputComponent } from './expression-input.component';
 
@@ -12,7 +12,6 @@ describe('ExpressionInputComponent', () => {
   let fixture: ComponentFixture<ExpressionInputComponent>;
 
   const fakeExprService = {
-    operatorInput$: of(),
     parse: (expr: LogicalExpression) => null 
   };
 

@@ -1,5 +1,5 @@
-import { Operators } from './enums';
-import { IOperator } from './interfaces';
+import { Operators } from '../../models/operators.enum';
+import { IOperator } from '../../models/operator.interface';
 
 export const OP_NOT: IOperator = {
   char: Operators.Not,

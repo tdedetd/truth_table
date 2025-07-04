@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LogicalExpression } from './misc/logical-expression';
+import { LogicalExpression } from './classes/logical-expression';
 
 @Component({
     selector: 'tt-root',
@@ -9,9 +9,9 @@ import { LogicalExpression } from './misc/logical-expression';
 })
 export class AppComponent {
 
-  expression: LogicalExpression | null = null;
+  public expression: LogicalExpression | null = null;
 
-  onExpressionChange(expression: LogicalExpression) {
+  public onExpressionChange(expression: LogicalExpression): void {
     this.expression = expression;
   }
 }

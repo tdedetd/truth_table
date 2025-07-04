@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { LogicalExpression } from './misc/logical-expression';
+import { LogicalExpression } from './classes/logical-expression';
 
 describe('AppComponent', () => {
   let component: AppComponent;

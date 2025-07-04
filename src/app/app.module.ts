@@ -6,9 +6,10 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ExpressionInputComponent } from './components/expression-input/expression-input.component';
 import { GuideComponent } from './components/guide/guide.component';
-import { ExpressionService } from './services/expression.service';
 import { TableComponent } from './components/table/table.component';
 import { ToNumberPipe } from './pipes/to-number.pipe';
+import { OPERATOR_INPUT_TOKEN } from './tokens/operator-input.token';
+import { Subject } from 'rxjs';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { ToNumberPipe } from './pipes/to-number.pipe';
     FormsModule,
   ],
   providers: [
-    ExpressionService
+    { provide: OPERATOR_INPUT_TOKEN, useValue: new Subject() }
   ],
   bootstrap: [AppComponent]
 })

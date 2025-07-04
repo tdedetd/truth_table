@@ -1,4 +1,4 @@
-import { Operators } from './enums';
+import { Operators } from './operators.enum';
 
 export interface IOperator {
   char: Operators;

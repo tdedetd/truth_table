@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Operators } from 'src/app/misc/enums';
-import { OPERATORS } from 'src/app/misc/operators';
-import { ExpressionService } from 'src/app/services/expression.service';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Operators } from 'src/app/models/operators.enum';
+import { OPERATORS } from 'src/app/utils/constants/operators';
+import { OPERATOR_INPUT_TOKEN } from '../../tokens/operator-input.token';
 
 @Component({
     selector: 'tt-guide',
@@ -12,11 +12,10 @@ import { ExpressionService } from 'src/app/services/expression.service';
 })
 export class GuideComponent {
   public readonly operators = OPERATORS.toSorted((a, b) => a.priority - b.priority);
-
-  constructor(private expr: ExpressionService) { }
+  private operatorInput = inject(OPERATOR_INPUT_TOKEN);
 
   public onOperationClick(char: Operators): void {
-    this.expr.operatorInput$.next(char);
+    this.operatorInput.next(char);
   }
 
 }

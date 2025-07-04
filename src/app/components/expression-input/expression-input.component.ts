@@ -1,14 +1,16 @@
-import { afterRenderEffect, ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, DestroyRef, ElementRef, output, viewChild } from '@angular/core';
+import { afterRenderEffect, ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, DestroyRef, ElementRef, inject, output, viewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { LogicalExpression } from 'src/app/misc/logical-expression';
+import { LogicalExpression } from 'src/app/classes/logical-expression';
 import { ExpressionService } from 'src/app/services/expression.service';
+import { OPERATOR_INPUT_TOKEN } from '../../tokens/operator-input.token';
 
 @Component({
     selector: 'tt-expression-input',
     templateUrl: './expression-input.component.html',
     styleUrls: ['./expression-input.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    standalone: false,
+    providers: [ExpressionService],
 })
 export class ExpressionInputComponent {
   public textbox = viewChild.required<ElementRef<HTMLInputElement>>('textbox');
@@ -19,9 +21,10 @@ export class ExpressionInputComponent {
   private readonly allowedCharsRegex = new RegExp('^[a-zA-Z()]$');
 
   private textboxHtml = computed(() => this.textbox().nativeElement);
+  private operatorInput = inject(OPERATOR_INPUT_TOKEN);
 
   constructor(
-    private expr: ExpressionService,
+    private expressionService: ExpressionService,
     private destroyRef: DestroyRef,
     private cd: ChangeDetectorRef
   ) {
@@ -31,7 +34,7 @@ export class ExpressionInputComponent {
   }
 
   public compute(): void {
-    const expr = this.expr.parse(this.expression);
+    const expr = this.expressionService.parse(this.expression);
     this.expressionChange.emit(expr);
   }
 
@@ -65,7 +68,7 @@ export class ExpressionInputComponent {
   private subscribeToOperationSelection(): void {
     this.textboxHtml().focus();
 
-    this.expr.operatorInput$.pipe(
+    this.operatorInput.pipe(
       takeUntilDestroyed(this.destroyRef)
     ).subscribe((char) => {
       this.insertChar(char);

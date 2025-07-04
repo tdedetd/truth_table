@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-import { LogicalExpression } from 'src/app/misc/logical-expression';
-import { Variables } from 'src/app/misc/types';
-import { ExpressionService } from 'src/app/services/expression.service';
+import { LogicalExpression } from 'src/app/classes/logical-expression';
+import { Variables } from 'src/app/models/variables.type';
 
 @Component({
     selector: 'tt-table',
@@ -14,10 +13,8 @@ export class TableComponent {
   public expression = input.required<LogicalExpression>();
 
   public childExpressions = computed(() => this.getExpressions(this.expression()).reverse());
-  public variables = computed(() => this.exprService.getVariables(this.expression()));
+  public variables = computed(() => this.expression().getVariables());
   public combinations = computed(() => this.getCombinations(this.variables()));
-
-  constructor(private exprService: ExpressionService) { }
 
   private getCombinations(variables: string[]): Variables[] {
     const combinations = [];
@@ -27,7 +24,7 @@ export class TableComponent {
 
       const comb: Variables = {};
       variables.forEach((variable, j) => {
-        comb[variable] = Boolean(+bin[j]);
+        comb[variable] = Boolean(Number(bin[j]));
       });
       combinations.push(comb);
     }
