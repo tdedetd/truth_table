@@ -1,9 +1,7 @@
-<div>
+<div class="expression-input-container">
   <input
     #textbox
     type="text"
-    [class.no-letter-spacing]="!expression"
-    placeholder="Enter logical expression here"
     [(ngModel)]="expression"
     (keydown)="keydown($event)"
     (keydown.enter)="compute()">

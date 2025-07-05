@@ -1,8 +1,8 @@
 header {
-  padding: .7rem;
+  padding: 16px;
   color: var(--primary-text-color);
   background: var(--primary-color);
-  margin-bottom: 2rem;
+  margin-bottom: 32px;
   box-shadow: 0 0 3px #999;
 }
 
@@ -19,12 +19,15 @@ h1 {
 .creds {
   display: flex;
   align-items: center;
+  gap: 8px;
 }
 
 .creds__name {
-  margin-right: .5rem;
+  @media screen and (max-width: 479px) {
+    display: none;
+  }
 }
 
 .creds__github {
-  height: 1.3rem;
+  height: 24px;
 }

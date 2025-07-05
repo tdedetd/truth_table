@@ -1,3 +1,12 @@
-.expr-input {
-  text-align: center;
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 32px;
+}
+
+.expression-input {
+  @media screen and (max-width: 479px) {
+    width: 100%;
+  }
 }

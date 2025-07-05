@@ -1,10 +1,8 @@
-h2 {
-  margin: 0;
+.guide-header {
+  margin-bottom: 8px;
 }
 
 ul {
-  margin: .5rem;
-  padding: 0;
   list-style: none;
 }
 
@@ -12,14 +10,17 @@ li {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: .2rem;
+  margin-bottom: 4px;
+
+  &.last {
+    margin: 0;
+  }
 }
 
 .btn {
-  width: 3rem;
+  width: 48px;
 }
 
 .guide {
-  margin: 0 auto 2rem;
-  width: 20rem;
+  width: 270px;
 }

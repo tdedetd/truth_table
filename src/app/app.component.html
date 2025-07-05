@@ -1,10 +1,11 @@
 <tt-header></tt-header>
 <div class="container">
-  <main>
+  <main class="main">
     <tt-guide></tt-guide>
-    <div class="expr-input">
-      <tt-expression-input (expressionChange)="onExpressionChange($event)"></tt-expression-input>
-    </div>
+    <tt-expression-input
+      class="expression-input"
+      (expressionChange)="onExpressionChange($event)"
+    ></tt-expression-input>
 
     @if (expression) {
       <tt-table [expression]="expression"></tt-table>

@@ -18,11 +18,16 @@ body {
   background-color: #ececec;
 }
 
+ul, ol, li, h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+  padding: 0;
+}
+
 .btn {
   border: none;
   background: var(--primary-color);
   color: var(--primary-text-color);
-  padding: .5rem 1rem;
+  padding: 8px 16px;
   cursor: pointer;
   border-radius: 0;
   font-size: 1rem;
@@ -38,6 +43,5 @@ body {
 
 .container {
   margin: 0 auto;
-  width: 50rem;
-  padding: 0 1rem;
+  padding: 0 16px;
 }

@@ -1,8 +1,8 @@
 <div class="guide">
-  <h2>Operators</h2>
+  <h2 class="guide-header">Operators</h2>
   <ul>
-    @for (op of operators; track op.char) {
-      <li>{{ op.name }}
+    @for (op of operators; track op.char; let isLast = $last) {
+      <li [class.last]="isLast">{{ op.name }}
         <button class="btn" (click)="onOperationClick(op.char)">{{ op.char }}</button>
       </li>
     }
