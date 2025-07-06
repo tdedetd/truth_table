@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-import { LogicalExpression } from 'src/app/classes/logical-expression';
-import { Variables } from 'src/app/models/variables.type';
+import { LogicalExpression } from '../../classes/logical-expression';
+import { Variables } from '../../models/variables.type';
 
 @Component({
     selector: 'tt-table',

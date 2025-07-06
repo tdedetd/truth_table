@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ExpressionService } from 'src/app/services/expression.service';
+import { ExpressionService } from '../../services/expression.service';
 import { GuideComponent } from './guide.component';
 
 describe('GuideComponent', () => {

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { Operators } from 'src/app/models/operators.enum';
-import { OPERATORS } from 'src/app/utils/constants/operators';
+import { Operators } from '../../models/operators.enum';
+import { OPERATORS } from '../../utils/constants/operators';
 import { OPERATOR_INPUT_TOKEN } from '../../tokens/operator-input.token';
 
 @Component({

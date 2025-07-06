@@ -1,7 +1,7 @@
 import { afterRenderEffect, ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, DestroyRef, ElementRef, inject, output, viewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { LogicalExpression } from 'src/app/classes/logical-expression';
-import { ExpressionService } from 'src/app/services/expression.service';
+import { LogicalExpression } from '../../classes/logical-expression';
+import { ExpressionService } from '../../services/expression.service';
 import { OPERATOR_INPUT_TOKEN } from '../../tokens/operator-input.token';
 
 @Component({

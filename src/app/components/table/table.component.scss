@@ -1,6 +1,11 @@
+.table-container {
+  overflow-x: auto;
+}
+
 table {
   border-collapse: collapse;
   box-shadow: 0 0 5px #999;
+  margin: 0 auto;
 }
 
 th, td {

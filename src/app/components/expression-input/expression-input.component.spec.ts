@@ -1,10 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { of } from 'rxjs';
 
-import { LogicalExpression } from 'src/app/classes/logical-expression';
-import { ExpressionService } from 'src/app/services/expression.service';
+import { LogicalExpression } from '../../classes/logical-expression';
+import { ExpressionService } from '../../services/expression.service';
 import { ExpressionInputComponent } from './expression-input.component';
 
 describe('ExpressionInputComponent', () => {
